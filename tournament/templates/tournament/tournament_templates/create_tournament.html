@@ -1,0 +1,65 @@
+{% extends 'organizer/base.html' %}
+{% block title %}{{ organizer.get_full_name }} | Create Tournament{% endblock %}
+
+{% block body %}
+
+    {% load staticfiles %}
+    <link  rel="stylesheet" type="text/css" href="{% static 'organizer/base.css' %}">
+    <br><br>
+    {% if messages %}
+
+       {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show center" role="alert">
+
+              <strong> {{ message }}  </strong>
+
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+              <span aria-hidden="true">&times;</span>
+
+              </button>
+
+        </div>
+
+
+       {% endfor %}
+
+
+    {% endif %}
+       <div class="container">
+
+        <p><h3>Fill the Details:</h3></p>
+
+
+       <div class="container col-md-6 " style="border: 3px double #17252A;padding-top: 20px">
+
+           <form  method="POST">
+            {% load widget_tweaks %}
+
+            {% csrf_token %}
+                 {% for field in form %}
+
+                     <div class="form-group">
+
+                     {{ field.errors }}
+
+                     <p>  {{ field.label_tag }}  &nbsp &nbsp &nbsp
+                    {{ field }}</p>
+
+                     </div>
+
+                 {% endfor %}
+             <div class="row">
+            <button type="submit" class="btn  btn-lg btn-secondary mx-auto">Save</button>
+             </div>
+
+          </form>
+       </div>
+        </div>
+
+{% endblock %}
+
+
+
+

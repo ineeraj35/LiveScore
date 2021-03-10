@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Live</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+      {% load staticfiles %}
+    <link  rel="stylesheet" type="text/css" href="{% static 'cricket/login.css' %}">
+  </head>
+
+  <body class="text-center">
+
+  <script >
+        $(document).ready(function(){
+          // Add smooth scrolling to all links
+          $("a").on('click', function(event) {
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+              // Prevent default anchor click behavior
+              event.preventDefault();
+              // Store hash
+              var hash = this.hash;
+              // Using jQuery's animate() method to add smooth page scroll
+              // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+              $('html, body').animate({
+                scrollTop: $(hash).offset().top
+              }, 800, function(){
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = hash;
+              });
+            } // End if
+          });
+        });
+    </script>
+
+  <div class="backgroundImageCVR">
+    <div class="background-image"></div>
+    <div class="content">
+
+                <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+                  <header class="masthead mb-auto">
+                    <div class="inner">
+                      <h3 class="masthead-brand">LiveScore.Com</h3>
+                      <nav class="nav nav-masthead justify-content-center" >
+                        <a class="nav-link  nav-color"  href="{% url 'home_page' %} "><h5 style="color: darkred">Home</h5></a>
+
+                        <a class="nav-link nav-color" href="{% url 'live' %}"><h5 style="color:darkred">Live Scores</h5></a>
+
+                      </nav>
+                    </div>
+                  </header>
+
+                    {% if messages %}
+
+            <br><br><br><br>
+
+                   {% for message in messages %}
+
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show center" role="alert">
+
+                          <strong> {{ message }}  </strong>
+
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                          <span aria-hidden="true">&times;</span>
+
+                          </button>
+
+                    </div>
+
+                   {% endfor %}
+
+            {% endif %}
+
+<br><br>
+                   <div class="col-lg-20" style="margin-left: 100px">
+
+    <div class="row">
+
+
+
+
+                                  </div>
+                              </div>
+
+                      </div>
+
+
+    <div class="col-md-6" style="margin-left: 350px">  <br><br>
+        <div class="card h-90">
+           <h2 class="card-header"><b>LIVE</h4></b></h2>
+
+            <div class="card-body">
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Live Matches</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for match in matches %}
+                  {% if match.match_status == 1 %}
+                <tr>
+                <td><a href="{% url 'tournament:live_scores' match.id %}" style="color: black">{{ match }}</a></td>
+                </tr>
+                  {% endif %}
+              </tbody>
+                 {% endfor %}
+
+
+            <table class="table table-bordered" align="center" >
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Live Tournaments</th>
+                </tr>
+              </thead>
+            <tbody >
+            {% for tournament in tournaments %}
+                {% if tournament.tournament_status == 1 %}
+            <tr >
+                  <td ><a href="{% url 'search:tournaments_details' tournament.id %}"><h5 style="color: black">{{ tournament.name }}</h5></a></td>
+            </tr>
+                {% endif %}
+             {% endfor %}
+            </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6" style="margin-left: 350px">  <br><br>
+        <div class="card h-90">
+           <h2 class="card-header"><b>PAST</h4></b></h2>
+
+            <div class="card-body">
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Past Matches</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for match in matches %}
+                  {% if match.match_status == 2 %}
+                <tr>
+                <td><a href="{% url 'search:match_details' match.id %}" style="color: black">{{ match }}</a></td>
+                </tr>
+                  {% endif %}
+              </tbody>
+                 {% endfor %}
+
+
+            <table class="table table-bordered" align="center" >
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Past Tournaments</th>
+                </tr>
+              </thead>
+            <tbody >
+            {% for tournament in tournaments %}
+                {% if tournament.tournament_status == 2 %}
+            <tr >
+                  <td ><a href="{% url 'search:tournaments_details' tournament.id %}"><h5 style="color: black">{{ tournament.name }}</h5></a></td>
+            </tr>
+                {% endif %}
+             {% endfor %}
+            </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6" style="margin-left: 350px">  <br><br>
+        <div class="card h-90">
+           <h2 class="card-header"><b>UPCOMING</h4></b></h2>
+
+            <div class="card-body">
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Upcoming Matches</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for match in matches %}
+                  {% if match.match_status == 0 %}
+                <tr>
+                <td><a href="{% url 'tournament:live_scores' match.id %}" style="color: black">{{ match }}</a></td>
+                </tr>
+                  {% endif %}
+              </tbody>
+                 {% endfor %}
+
+
+            <table class="table table-bordered" align="center" >
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Upcomming Tournaments</th>
+                </tr>
+              </thead>
+            <tbody >
+            {% for tournament in tournaments %}
+                {% if tournament.tournament_status == 0 %}
+            <tr >
+                  <td ><a href="{% url 'search:tournaments_details' tournament.id %}"><h5 style="color: black">{{ tournament.name }}</h5></a></td>
+            </tr>
+                {% endif %}
+             {% endfor %}
+            </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+       </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+  </body>
+
+
+
+
+
+</html>
+
+
+

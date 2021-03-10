@@ -1,0 +1,98 @@
+{% extends 'player/base.html' %}
+
+{% if user.username %}
+
+{% block title %}{{ user.get_full_name }} | Profile{% endblock %}
+
+{% block body %}
+
+<br><br>
+
+    {% if messages %}
+
+       {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show center " style="" role="alert">
+
+              <strong> {{ message }}  </strong>
+
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+              <span aria-hidden="true">&times;</span>
+
+              </button>
+
+        </div>
+
+
+       {% endfor %}
+
+
+    {% endif %}
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+            <div class="container col-md-6">
+
+
+
+            <div class="card my-5" >
+                        <div class="card-header "><h2 class="center">Your Profile</h2></div>
+                        <div class="card-body">
+                        <div class="center my-4">
+                         <img src="{{ P.image.url }}" alt=" NO image" class="rounded-circle img-fluid d-block mx-auto">
+                        </div>  <div class="row">
+
+                                {% for field_name, field in player.items %}
+                                    {% if field_name != "Profile Picture" %}
+                                    <div class=" col-md-2">
+
+
+                                    </div>
+                                   <div class="col-md-4">
+
+                                        <b>{{ field_name }}:</b>
+
+                                    </div>
+
+                                   <div class="col-md-5">
+
+
+                                         <p> {{ field }}</p>
+                                    </div>
+                                     <div class="col-md-1">
+                                     
+
+
+
+                                    </div>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                 </div>
+                      </div>
+                      </div>
+
+
+
+
+
+
+
+           <p><a href="{% url 'player:player_edit_profile' %}"><h4>Edit Profile</h4></a></p>
+
+        </div>
+
+     </main>
+
+{% endblock %}
+
+
+{% else %}
+
+            <p><a href="{% url 'player:player_login' %}">You are not logged in.Click here to login</a></p>
+
+
+
+{% endif %}

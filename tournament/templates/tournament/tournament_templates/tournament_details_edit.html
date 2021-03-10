@@ -1,0 +1,49 @@
+{% extends 'organizer/base.html' %}
+
+{% block title %} EDIT_INFO{% endblock %}
+
+{% block body %}
+
+    {% load staticfiles %}
+    <link  rel="stylesheet" type="text/css" href="{% static 'organizer/base.css' %}">
+
+
+       <div class="container">
+
+        <p><h1>EDIT</h1></p>
+
+           <form  method="POST">
+
+            {% csrf_token %}
+                {% load widget_tweaks %}
+
+
+                 {% for field in form %}
+
+                     <div class="form-group">
+
+
+
+                     <p>  {{ field.label_tag }}  &nbsp &nbsp &nbsp
+                    {{ field }}
+                     </p>
+                     {{ field.errors }}
+
+                     </div>
+
+                 {% endfor %}
+
+             <div class="row">
+            <button type="submit" class="btn  btn-lg btn-secondary mx-auto">Save Changes</button>
+             </div>
+
+          </form>
+        </div>
+
+
+
+
+
+
+
+{% endblock %}

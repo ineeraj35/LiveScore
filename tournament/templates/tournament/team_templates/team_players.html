@@ -1,0 +1,121 @@
+{% extends 'organizer/base.html' %}
+
+{% block title %}Players{% endblock %}
+
+{% block body %}
+
+    <div class="backgroundImageCVR">
+    <div class="background-image"></div>
+    <div class="content">
+
+
+    {% load staticfiles %}
+    <link  rel="stylesheet" type="text/css" href="{% static 'organizer/base.css' %}">
+<br>
+    <br>
+
+
+     {% if messages %}
+
+       {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show center" role="alert">
+
+              <strong> {{ message }}  </strong>
+
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+              <span aria-hidden="true">&times;</span>
+
+              </button>
+
+        </div>
+
+
+       {% endfor %}
+
+
+    {% endif %}
+<div class="container">
+
+
+
+
+  <!-----   -->
+ <div class="container">
+
+      <!-- Introduction Row -->
+      <h1 class="my-4">{{ team.name }}
+        <small class="center"> Owned by :  {{ team.owner }}</small>
+      </h1>
+
+           <!-- Team Members Row -->
+      <div class="row">
+        <div class="col-md-8">
+
+           <div class="row">
+           {% for player in current_players %}
+
+           {% if player %}
+            <div class="col-lg-3  text-center mb-4">
+
+              <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
+
+              <h3>{{ player.get_full_name }}<br>
+
+                <small>{{ player.player_type }}</small>
+
+              </h3>
+               </div>
+               {% endif %}
+
+          {% endfor %}
+      </div>
+         </div>
+       <div class="col-md-1"></div>
+
+       <div class="col-md-3">
+
+                <div class="card h-75">
+
+                  <h5 class="card-header">Team Performance</h5>
+
+                    <div class="card-body">
+
+                         <p> TOTAL MATCHES : </p>
+                         <p>  WINS :</p>
+                         <p> LOSS : </p>
+                         <p> LEADING BATSMAN :</p>
+                        <p> LEADING BOWLER:</p>
+
+                    </div>
+
+                    <div class="card-footer">
+
+
+                    </div>
+                </div>
+
+
+          </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container -->
+
+<!--------- ---->
+
+
+    <p><h2><a href="{% url 'tournament:add_players' team.id %}" class="btn-lg btn-secondary">Add Players</a></h2></p>
+
+
+
+     </div>
+    </div>
+
+
+{% endblock %}

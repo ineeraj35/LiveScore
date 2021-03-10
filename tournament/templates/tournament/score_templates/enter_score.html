@@ -1,0 +1,518 @@
+
+
+{% extends 'organizer/base.html' %}
+
+
+
+{% block title %}{{ organizer.get_full_name }} | Enter Score{% endblock %}
+
+{% block body %}
+
+    <div class="backgroundImageCVR">
+    <div class="background-image"></div>
+    <div class="content">
+
+    {% load staticfiles %}
+    <link  rel="stylesheet" type="text/css" href="{% static 'organizer/base.css' %}">
+    <br><br><br><br>
+
+
+             <div class="col-lg-20" style="margin-left: 100px">
+
+    <div class="row">
+
+
+                                      <div class="col-sm-3" >
+
+                                          <h3><b>Match : {{ match.name }}</b></h3>
+
+                                      </div>
+
+                                      <div class="col-sm-3 ">
+
+                                         <h3><b> Batting Team : {{ batting_team.name }}</b></h3>
+                                      </div>
+
+
+                                      <div class="col-sm-3 ">
+
+                                        <h3><b>Bowling Team : {{ bowling_team.name }}</b></h3>
+
+                                      </div>
+
+
+
+                                        <div class="col-sm-3">
+
+                                         <h3><b> Innings : {{ match_additional.current_innings }}</b></h3>
+
+                                      </div>
+
+                                      <div class="col-sm-3">
+
+                                         <a href="{% url 'tournament:submit_innings' match.id %}"><h3><b> SUBMIT INNINGS</b></h3></a>
+
+                                      </div>
+
+
+
+
+                                  </div>
+                              </div>
+
+
+
+
+       <div class="row" style="margin-left: 10px">
+
+             <div class="col-lg-6">
+
+                 <div class="score_details">
+                <br><br>
+
+                   <form  name="score_form" method="POST">
+
+                       {% csrf_token %}
+                         <div class="card h-80">
+                        <h2 class="card-header"><b>FILL SCORE DETAILS:</b></h2>
+                        <div class="card-body">
+                          <div class="row">
+
+                              {% if current_innings.current_bowler is None %}
+
+
+                              <h3>Please Select Bowler to continue:</h3>
+
+
+                                    <p>{{ select_new_bowler_form.player }} </p>
+
+                                  <p><button type="submit" class="btn btn-primary" formaction="{% url 'tournament:select_new_bowler'  match.id  %}">Continue</button></p>
+
+
+                              {% elif player1 is not None and player2 is not None %}
+
+                               <div class="col-sm-5">
+                                  {{ form.over_number.label }} {{ form.over_number }}
+                              </div>
+
+
+                                <div class="col-sm-5">
+                                  {{ form.ball_number.label }}   {{ form.ball_number }}
+                              </div>
+
+
+
+                               <br>
+                               <div class="col-lg-12 my-3" style="{height: 60px;}">
+
+                               </div>
+
+
+                              <div class="col-sm-6">
+
+                                 {{ form.batsman.label }}   {{ form.batsman }}
+
+                              </div>
+
+                              <div class="col-sm-6">
+
+                                 Bowler : {{ current_innings.current_bowler }}
+
+                              </div>
+
+                                  <div class="col-lg-12 my-3" style="{height: 60px;}">
+
+                               </div>
+
+                               <div class="col-sm-4">
+                                   {{ form.run.label }}  {{ form.run }}
+                              </div>
+
+                              <div class="col-sm-4">
+                                   {{ form.six.label }}  {{ form.six }}
+                              </div>
+
+                              <div class="col-sm-4">
+                                   {{ form.four.label }}  {{ form.four }}
+                              </div>
+
+                              <div class="col-lg-12 my-3" style="{height: 60px;}">
+
+                               </div>
+
+                              <div class="col-sm-3">
+                                    {{ form.is_extra.label }}   {{ form.is_extra }}
+                              </div>
+
+                               <div class="col-sm-4">
+                                    {{ form.extra_type.label }}   {{ form.extra_type }}
+                              </div>
+
+                               <div class="col-sm-5">
+                                    {{ form.extra_run.label }}  {{ form.extra_run }}
+                              </div>
+                                 <div class="col-lg-12 my-3" style="{height: 60px;}">
+
+                               </div>
+                              <div class="col-sm-3">
+                                    {{ form.is_wicket.label }}  {{ form.is_wicket }}
+                              </div>
+
+                              <div class="col-sm-4">
+                                    {{ form.out_batsman.label }}  {{ form.out_batsman }}
+                              </div>
+
+                              <div class="col-sm-5">
+                                   {{ form.wicket_type.label }}   {{ form.wicket_type }}
+                              </div>
+
+                              <div class="col-lg-12 my-3" style="{height: 60px;}">
+
+                               </div>
+
+                              <div class="col-sm-5">
+                                   {{ form.commentary.label }}   {{ form.commentary }}
+                              </div>
+
+
+                              {% elif players %}
+
+
+                                <h3>Please Select New Batsman to continue:</h3>
+
+
+                                    <p>{{ select_new_batsman_form.player }} </p>
+
+                                  <p><button type="submit" class="btn btn-primary" formaction="{% url 'tournament:select_new_batsman'  match.id  %}">Save</button></p>
+                              {% else %}
+
+                              <h3>All-Out</h3>
+
+                              {% endif %}
+
+                          </div>
+
+
+                        </div>
+
+                              <div class="card-footer">
+                                  <div class="row">
+
+
+                                      <div class="col-sm-3 ">
+                                          <button  class="btn  btn-lg score_buttons" id="run">Run </button>
+
+                                      </div>
+
+                                      <div class="col-sm-2 ">
+                                          <button class="btn  btn-lg score_buttons" id="extra" >extra </button>
+                                      </div>
+
+                                      <div class="col-sm-1">
+
+                                      </div>
+
+
+                                      <div class="col-sm-4 ">
+
+                                          <button class="btn btn-lg score_buttons" id="extraRun" >extra Run </button>
+
+                                      </div>
+
+                                      <div class="col-sm-2">
+
+                                          <button class="btn  btn-lg score_buttons" id="wkt" >wkt </button>
+
+                                      </div>
+
+                                  </div>
+                              </div>
+
+                      </div>
+                       <br>
+
+
+                         <button type="submit" class="btn btn-primary">Save</button>
+
+                   </form>
+                </div>
+
+             </div>
+
+
+    <div class="col-md-6">  <br><br>
+        <div class="card h-90">
+           <h2 class="card-header"><b>SCORE BOARD:</b></h2>
+
+            <div class="card-body">
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Batsman</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Runs</th>
+                  <th scope="col">Balls</th>
+                  <th scope="col">4s</th>
+                  <th scope="col">6s</th>
+                  <th scope="col">SR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ player1.player.get_full_name }}</td>
+                  <td>{{ player1.status }}</td>
+                  <td>{{ player1.batting_runs }}</td>
+                  <td>{{ player1.batting_balls }}</td>
+                  <td>{{ player1.sixes }}</td>
+                  <td>{{ player1.fours }}</td>
+                  <td>{{ player1.strike_rate }}</td>
+                </tr>
+                 <tr>
+                  <td>{{ player2.player.get_full_name }}</td>
+                  <td>{{ player2.status }}</td>
+                  <td>{{ player2.batting_runs }}</td>
+                  <td>{{ player2.batting_balls }}</td>
+                  <td>{{ player2.sixes }}</td>
+                  <td>{{ player2.fours }}</td>
+                  <td>{{ player2.strike_rate }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+
+
+
+
+
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Bowler</th>
+                  <th scope="col">Runs</th>
+                  <th scope="col">Overs</th>
+                  <th scope="col">Maidens</th>
+                  <th scope="col">Wickets</th>
+                  <th scope="col">Average</th>
+                  <th scope="col">Economy</th>
+                </tr>
+              </thead>
+              {% for player in bowling_team_players %}
+              <tbody>
+                <tr>
+                  <td>{{ player.player.get_full_name }}</td>
+                  <td>{{ player.bowling_runs }}</td>
+                  <td>{{ player.bowling_overs }}</td>
+                  <td>0</td>
+                  <td>{{ player.wickets }}</td>
+                  <td>{{ player.bowling_avg }}</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+                            {% endfor %}
+            </table>
+
+
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Recent</th>
+                </tr>
+              </thead>
+            <tbody>
+             {% for recent in recent %}
+            <tr>
+                  <td>{{ recent.over_number }}.{{ recent.ball_number }} : {{ recent.description }}</td>
+            </tr>
+             {% endfor %}
+            </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+       </div>
+
+
+
+
+
+
+
+
+
+
+<!-- The Modal -->
+<div id="wktModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content animate">
+
+
+
+      <div class="card h-25 w-10" >
+
+            <h5 class="card-header">CHOOSE AMONG  <span class="close" id="close">&times;</span></h5>
+
+             <div class="card-body">
+
+                 <p> <button  class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['wicket_type'].value='RunOut' " >RunOut</button>
+               <button  class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['wicket_type'].value='Catch'  ">Catch</button>
+               <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['wicket_type'].value='Bowled'  ">Bowled</button>
+               <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['wicket_type'].value='Lbw' ">Lbw</button>
+               <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['wicket_type'].value='Stumps'  ">Stumps</button>
+               <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['wicket_type'].value='HitWicket'  ">Hitwicket</button></p>
+
+             </div>
+      </div>
+
+  </div>
+
+</div>
+
+
+<div id="extraModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+
+
+
+      <div class="card h-25">
+
+      <h5 class="card-header">CHOOSE AMONG  <span class="close" id="close1">&times;</span></h5>
+
+          <div class="card-body">
+
+                <p>  <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_type'].value='Wide'  ">Wide</button>
+               <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_type'].value='NoBall'  ">No ball</button>
+               <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_type'].value='DeadBall'  ">Dead ball</button></p>
+
+
+          </div>
+        </div>
+  </div>
+
+</div>
+
+
+    <div id="RunModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+
+
+
+      <div class="card h-25">
+         <h5 class="card-header">CHOOSE AMONG  <span class="close" id="close2">&times;</span></h5>
+
+
+             <div class="card-body">
+
+
+              <p><button  class=" btn  btn-lg score_buttons"  onclick="document.forms['score_form']['run'].value=6  ">6</button>
+               <button class=" btn  btn-lg score_buttons"   onclick="document.forms['score_form']['run'].value=5  ">5</button>
+               <button  class=" btn  btn-lg score_buttons"  onclick="document.forms['score_form']['run'].value=4  ">4</button>
+               <button  class=" btn  btn-lg score_buttons"  onclick="document.forms['score_form']['run'].value=3  ">3</button>
+               <button  class=" btn  btn-lg score_buttons"   onclick="document.forms['score_form']['run'].value=2  ">2</button>
+               <button class=" btn  btn-lg score_buttons"  onclick="document.forms['score_form']['run'].value=1  ">1</button>
+               <button class=" btn  btn-lg score_buttons"  onclick="document.forms['score_form']['run'].value=0  ">0</button></p>
+             </div>
+
+      </div>
+
+
+  </div>
+
+</div>
+
+
+
+
+
+     <div id="extraRunModal" class="modal">
+
+  <!-- Modal content -->
+     <div class="modal-content">
+
+
+
+          <div class="card h-25">
+                <h5 class="card-header">CHOOSE AMONG  <span class="close" id="close3">&times;</span></h5>
+
+
+                <div class="card-body">
+
+                  <p>  <button  class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_run'].value=6  ">6</button>
+                   <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_run'].value=5  ">5</button>
+                   <button  class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_run'].value=4  ">4</button>
+                   <button  class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_run'].value=3  ">3</button>
+                   <button  class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_run'].value=2  ">2</button>
+                   <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_run'].value=1  ">1</button>
+                   <button class=" btn  btn-lg score_buttons" onclick="document.forms['score_form']['extra_run'].value=0  ">0</button></p>
+
+
+                 </div>
+
+           </div>
+      </div>
+
+
+</div>
+
+
+<script>
+var modal = document.getElementById('wktModal');
+var btn = document.getElementById("wkt");
+var span = document.getElementById("close");
+var modal1 = document.getElementById('extraModal');
+var btn1 = document.getElementById("extra");
+var span1 = document.getElementById("close1");
+var modal2 = document.getElementById('RunModal');
+var btn2 = document.getElementById("run");
+var span2 = document.getElementById("close2");
+var modal3 = document.getElementById('extraRunModal');
+var btn3= document.getElementById("extraRun");
+var span3 = document.getElementById("close3");
+btn.onclick = function() {
+    modal.style.display = "block";
+};
+btn1.onclick = function() {
+    modal1.style.display = "block";
+};
+btn2.onclick = function() {
+    modal2.style.display = "block";
+};
+btn3.onclick = function() {
+    modal3.style.display = "block";
+};
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+};
+span1.onclick = function() {
+    modal1.style.display = "none";
+};
+span2.onclick = function() {
+    modal2.style.display = "none";
+};
+span3.onclick = function() {
+    modal3.style.display = "none";
+};
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+    </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+

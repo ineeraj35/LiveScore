@@ -1,0 +1,472 @@
+{% extends 'organizer/base.html' %}
+
+{% block title %}Match{% endblock %}
+
+{% block body %}
+
+    {% load staticfiles %}
+    <link  rel="stylesheet" type="text/css" href="{% static 'organizer/base.css' %}">
+
+{% if messages %}
+
+<br><br><br><br>
+
+       {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show center" role="alert">
+
+              <strong> {{ message }}  </strong>
+
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+              <span aria-hidden="true">&times;</span>
+
+              </button>
+
+        </div>
+
+       {% endfor %}
+
+{% endif %}
+
+
+    <div class="container">
+     <br>
+    <br>
+    <br>
+        <h1> {{  match.team_1 }}vs {{match.team_2}}</h1>
+
+    </div>
+
+
+    <!--------------- -->
+
+<div class="container">
+
+    <script >
+        $(document).ready(function(){
+          // Add smooth scrolling to all links
+          $("a").on('click', function(event) {
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+              // Prevent default anchor click behavior
+              event.preventDefault();
+              // Store hash
+              var hash = this.hash;
+              // Using jQuery's animate() method to add smooth page scroll
+              // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+              $('html, body').animate({
+                scrollTop: $(hash).offset().top
+              }, 800, function(){
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = hash;
+              });
+            } // End if
+          });
+        });
+    </script>
+
+
+
+    <!-- Page Content -->
+
+    <div class="container">
+
+
+      <div class="row">
+
+        <!-- Blog Entries Column class="col-md-9" -->
+        <div  class="col-md-9">
+      {% if match_additional.toss_stored is True %}
+
+            <hr>
+            <h2 class="my-4" style="{text-align: center;}">First Innings : {{ team1.name }}
+
+            </h2>
+
+                  <!-- Blog Post -->
+            <div id="firstinnings">
+                        <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Batsman</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Runs</th>
+                  <th scope="col">Balls</th>
+                  <th scope="col">4s</th>
+                  <th scope="col">6s</th>
+                  <th scope="col">SR</th>
+                </tr>
+              </thead>
+                            {% for player in innings1_batting %}
+              <tbody>
+                <tr>
+                  <td>{{ player.player.get_full_name }}</td>
+                  <td>{{ player.status }}</td>
+                  <td>{{ player.batting_runs }}</td>
+                  <td>{{ player.batting_balls }}</td>
+                  <td>{{ player.fours }}</td>
+                  <td>{{ player.sixes }}</td>
+                  <td>{{ player.strike_rate }}</td>
+                </tr>
+              </tbody>
+                            {% endfor %}
+            </table>
+
+
+        <br><br>
+
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Fall of Wickets</th>
+                </tr>
+              </thead>
+                {% for wicket in innings1_fallofwicket %}
+              <tbody>
+                <tr>
+                  <td>{{ wicket.over_number }}.{{ wicket.ball_number }} - {{ wicket.out_batsman.get_full_name }}</td>
+                </tr>
+              </tbody>
+                            {% endfor %}
+            </table>
+
+        <br><br><br>
+
+
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Bowler</th>
+                  <th scope="col">Runs</th>
+                  <th scope="col">Overs</th>
+                  <th scope="col">Maidens</th>
+                  <th scope="col">Wickets</th>
+                  <th scope="col">Average</th>
+                  <th scope="col">Economy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {% for player in innings1_bowling %}
+              <tbody>
+                <tr>
+                  <td>{{ player.player.get_full_name }}</td>
+                  <td>{{ player.bowling_runs }}</td>
+                  <td>{{ player.bowling_overs }}</td>
+                  <td>0</td>
+                  <td>{{ player.wickets }}</td>
+                  <td>{{ player.bowling_avg}}</td>
+                  <td>{{ player.economy }}</td>
+                </tr>
+              </tbody>
+                            {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+
+                    <hr>
+            </div>
+
+                <!-- recent tournaments -->
+            <hr>
+            <div id="recent">
+
+            <h2 class="my-4">Second Innings : {{ team2.name }}
+
+            </h2>
+
+                  <!-- Blog Post -->
+
+                 <div id="secondinnings">
+                        <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Batsman</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Runs</th>
+                  <th scope="col">Balls</th>
+                  <th scope="col">4s</th>
+                  <th scope="col">6s</th>
+                  <th scope="col">SR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {% for player in innings2_batting %}
+              <tbody>
+                <tr>
+                  <td>{{ player.player.get_full_name }}</td>
+                  <td>{{ player.status }}</td>
+                  <td>{{ player.batting_runs }}</td>
+                  <td>{{ player.batting_balls }}</td>
+                  <td>{{ player.fours }}</td>
+                  <td>{{ player.sixes }}</td>
+                  <td>{{ player.strike_rate }}</td>
+                </tr>
+              </tbody>
+                            {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+
+        <br><br>
+
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Fall of Wickets</th>
+                </tr>
+              </thead>
+                {% for wicket in innings2_fallofwicket %}
+              <tbody>
+                <tr>
+                  <td>{{ wicket.over_number }}.{{ wicket.ball_number }} - {{ wicket.out_batsman.get_full_name }}</td>
+                </tr>
+              </tbody>
+                            {% endfor %}
+            </table>
+
+        <br><br><br>
+
+
+            <table class="table table-bordered" align="center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Bowler</th>
+                  <th scope="col">Runs</th>
+                  <th scope="col">Overs</th>
+                  <th scope="col">Maidens</th>
+                  <th scope="col">Wickets</th>
+                  <th scope="col">Average</th>
+                  <th scope="col">Economy</th>
+                </tr>
+              </thead>
+              {% for player in innings2_bowling %}
+              <tbody>
+                <tr>
+                  <td>{{ player.player.get_full_name }}</td>
+                  <td>{{ player.bowling_runs }}</td>
+                  <td>{{ player.bowling_overs }}</td>
+                  <td>0</td>
+                  <td>{{ player.wickets }}</td>
+                  <td>{{ player.bowling_avg }}</td>
+                  <td>{{ player.economy }}</td>
+                </tr>
+              </tbody>
+                            {% endfor %}
+            </table>
+                 </div>
+            </div>
+
+
+                <!-- upcomming  tournaments--->
+             <div id="commentary">
+                 <hr>
+             <h2 class="my-4">Commentary</h2>
+                 <h2>First Innings</h2>
+                 {% for commentary in commentary_first_innings %}
+                 <p><h4>{{ commentary }} : {{ commentary.description }}</h4></p>
+                 {% endfor %}
+                 <h2>Second Innings</h2>
+                 {% for commentary in commentary_second_innings %}
+                 <p><h4>{{ commentary }} : {{ commentary.description }}</h4></p>
+                 {% endfor %}
+                 <hr>
+             </div>
+        </div>
+   {% endif %}
+        <!-- Sidebar Widgets Column class="col-md-3" -->
+        <div   class="col-md-3 ">
+
+            <div class="sticky-top" >
+          {% if match.overs == 0 %}
+            <!-- Over Widget -->
+                      <div class="card my-4">
+                        <h5 class="card-header">Enter Overs Information</h5>
+                        <div class="card-body">
+                          <div class="row">
+                                 <form method="POST" action="{% url 'tournament:match_overs' match.id %}">
+                                  {% csrf_token %}
+                                     <p> {{ overs_form.overs.label }} : {{ overs_form.overs }}</p>
+                                     <button type="submit" class="btn btn-secondary
+                                     submit_buttons">Save</button>
+                              </form>
+                          </div>
+                      </div>
+                      </div>
+            {% else %}
+
+                    <div class="card my-4">
+                        <h5 class="card-header"><b>Overs Information</b></h5>
+                        <div class="card-body">
+                          <div class="row">
+                                 <h4>Overs : {{ match.overs }}</h4>
+                          </div>
+                      </div>
+                      </div>
+
+            {% endif %}
+
+
+            {% if match_additional.toss_stored is False %}
+                 <!-- Toss Widget -->
+                      <div class="card my-4">
+                        <h5 class="card-header">Enter Toss Information</h5>
+                        <div class="card-body">
+                          <div class="row">
+                                 <form method="POST" action="{% url 'tournament:match_toss'  match.id%}">
+                                  {% csrf_token %}
+                                      <p>Select Team :  {{ toss_form.toss_winner }}</p>
+                                      <p>Select Choice :  {{ toss_form.toss_winner_choice }}</p>
+                                     <button class="btn btn-secondary" type="submit" value="continue">Save</button>
+                              </form>
+                          </div>
+                      </div>
+                      </div>
+            {% else %}
+                  <!-- Toss Widget -->
+                      <div class="card my-4">
+                          <h5 class="card-header"><b>Toss Information</b></h5>
+                        <div class="card-body">
+                          <div class="row">
+                                <h4>Winner : {{ match.toss_winner }}</h4>
+                                <h4>Selection : {{ match.toss_winner_choice }}</h4>
+                          </div>
+                      </div>
+                      </div>
+            {% endif %}
+
+                  <!-- Categories Widget -->
+                      <div class="card my-4">
+                        <h5 class="card-header">Go To</h5>
+                        <div class="card-body">
+                          <div class="row">
+                              <p><a href="#firstinnings">FIRST INNINGS</a></p>
+                              <p><a href="#secondinnings">SECOND INNINGS</a></p>
+                              <p><a href="#commentary">COMMENTARY</a></p>
+                          </div>
+                      </div>
+                      </div>
+
+                  <!-- Side Widget -->
+                      <div class="card my-4">
+                        <h5 class="card-header"><b>Update Score Card</b></h5>
+                        <div class="card-body">
+                          <div class="row">
+
+
+                              {% if match.match_status == 0 %}
+
+                                    <form method="POST" action="{% url 'tournament:start_match' match.id %}">
+                                        {% csrf_token %}
+                                         <button class="btn btn-primary" type="submit" value="continue">Start Match</button>
+                                    </form>
+
+                              {% elif match_additional.current_innings == 'First' %}
+
+                                  {% if current_innings.openers_selected  or match_additional.toss_stored == False %}
+
+                                    <p><a href="{% url 'tournament:enter_score' match.id   %}">{{ match_additional.current_innings }}</a></p>
+
+                                  {% else %}
+
+                                   <p><a data-toggle="modal" href="#exampleModalCenter">FIRST INNINGS</a></p>
+
+                                  {% endif %}
+
+                              {% elif match_additional.current_innings == 'Second' %}
+
+                                  {% if current_innings.openers_selected or match_additional.toss_stored == False %}
+
+                                    <p><a href="{% url 'tournament:enter_score' match.id   %}">{{ match_additional.current_innings }}</a></p>
+
+                                  {% else %}
+
+                                   <p><a data-toggle="modal" href="#exampleModalCenter">SECOND INNINGS</a></p>
+
+                                  {% endif %}
+
+                              {% elif match_additional.current_innings == 'Over' and match.match_winner is None %}
+
+                                   <p><a data-toggle="modal" href="#exampleModalCenter1">SUBMIT MATCH</a></p>
+
+                              {% endif %}
+
+
+
+                          </div>
+                        </div>
+                      </div>
+
+            </div>
+
+        </div>
+
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Select the Opening Batsmen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <form method="POST" action="{% url 'tournament:match_openers'  match.id %}">
+                                  {% csrf_token %}
+          <h4>Strike : {{ opener_form.striker }}</h4>
+          <h4>Non Strike : {{ opener_form.non_striker }}</h4>
+              <button type="submit" class="btn btn-secondary
+                                     submit_buttons">Save</button>
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Select the Opening Batsmen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <form method="POST" action="{% url 'tournament:submit_match'  match.id %}">
+                                  {% csrf_token %}
+          <h4>Winner : {{ winner_form.winner }}</h4>
+              <button type="submit" class="btn btn-secondary
+                                     submit_buttons">Save</button>
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'organizer/base.html' %}
+
+{% block title %}{{ P.get_full_name }} | Home{% endblock %}
+
+{% block body %}
+<br><br><br>
+    {% if messages %}
+
+       {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show center" role="alert">
+
+              <strong> {{ message }}  </strong>
+
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+              <span aria-hidden="true">&times;</span>
+
+              </button>
+
+        </div>
+
+
+       {% endfor %}
+
+
+    {% endif %}
+
+    <style>
+
+
+.jumbotron {
+    background-image: url("https://media2.mensxp.com/media/section/2015/Feb/cricket13663_1424161361.jpg");
+
+    background-repeat: no-repeat;
+        background-size: cover;
+
+}
+
+    </style>
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Jumbotron Header -->
+      <header class="jumbotron my-4" >
+        <h1 class="display-5">A Warm Welcome!</h1>
+        <p class="lead"><b>{{ request.user.get_full_name }}</b></p>
+
+      </header>
+
+      <!-- Page Features -->
+      <div class="row text-center">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+
+            <div class="card-body">
+              <h4 class="card-title">Profile</h4>
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="{% url 'organizer:view_profile' %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+
+            <div class="card-body">
+                <h4 class="card-title">My <br> Tournaments</h4>
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="{% url 'tournament:tournament' %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+</html>
+
+
+
+{% endblock %}

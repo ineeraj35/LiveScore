@@ -1,0 +1,64 @@
+{% extends 'player/base.html' %}
+
+{% block title %}{{ user.get_full_name }} | Edit | Profile{% endblock %}
+
+{% block body %}
+
+         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+{% if user.username %}
+
+       <div class="container">
+
+
+       <div  class="container col-md-8" style="border: 3px double #17252A;padding-top: 30px">
+
+           <form  method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+                 {% for field in form %}
+
+                     <div class="form-group row">
+
+                         <div class="col-md-2">
+
+
+                         </div>
+
+                         <div class="col-md-4">
+                          {{ field.label_tag }}
+
+                         </div>
+
+                          <div class="col-md-6">
+                             {{  field }}
+
+
+                         </div>
+
+
+
+
+                     </div>
+
+                 {% endfor %}
+                <div class=" row ">
+
+                            <button type="submit" class="btn btn-primary mx-auto">Save Changes</button>
+                </div>
+          </form>
+       </div>
+        </div>
+
+     </main>
+
+
+
+    {% else %}
+
+            <p><a href="{% url 'player:player_login' %}">You are not logged in.Click here to login</a></p>
+
+    {% endif %}
+
+
+{% endblock %}
